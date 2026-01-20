@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+env/
+
+# Node / Nuxt
+node_modules/
+.nuxt/
+.output/
+dist/
+
+# Env & local
+.env
+*.sqlite3
+mkjd.db
+
+# Model besar
+models/model_judol_bert/
+model_judol_bert/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store

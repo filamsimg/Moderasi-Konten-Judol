@@ -1,0 +1,179 @@
+{
+  "info": {
+    "_postman_id": "7e9b9a4f-5c2f-4a62-9b4c-7a4e26b7f6f1",
+    "name": "MKJD BE API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health"
+      },
+      "response": []
+    },
+    {
+      "name": "Settings - Get",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/settings"
+      },
+      "response": []
+    },
+    {
+      "name": "Targets - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/targets"
+      },
+      "response": []
+    },
+    {
+      "name": "Comments - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/comments"
+      },
+      "response": []
+    },
+    {
+      "name": "Comments - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"c_test_001\",\n  \"text_raw\": \"promo slot gacor\",\n  \"video_id\": \"vid_001\",\n  \"video_title\": \"Test Video\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/v1/comments"
+      },
+      "response": []
+    },
+    {
+      "name": "Comments - Decision Update",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"decision\": \"HELD\",\n  \"actor\": \"admin\",\n  \"note\": \"test hold\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/v1/comments/c_test_001/decision"
+      },
+      "response": []
+    },
+    {
+      "name": "Comments - Apply Score",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"score\": 0.85,\n  \"actor\": \"system\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/v1/comments/c_test_001/score"
+      },
+      "response": []
+    },
+    {
+      "name": "Audit Logs - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/audit-logs"
+      },
+      "response": []
+    },
+    {
+      "name": "Pipeline Status - Get",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/pipeline/status"
+      },
+      "response": []
+    },
+    {
+      "name": "OAuth Status - Get",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/oauth/status"
+      },
+      "response": []
+    },
+    {
+      "name": "Models - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/models"
+      },
+      "response": []
+    },
+    {
+      "name": "Inference (requires MODEL_ENABLED=true)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"texts\": [\"promo slot gacor\"],\n  \"normalize\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/v1/inference"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    }
+  ]
+}

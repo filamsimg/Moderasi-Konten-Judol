@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mkjd-postgres
+    environment:
+      POSTGRES_DB: mkjd
+      POSTGRES_USER: mkjd
+      POSTGRES_PASSWORD: mkjd
+    ports:
+      - "5432:5432"
+    volumes:
+      - mkjd_postgres:/var/lib/postgresql/data
+
+volumes:
+  mkjd_postgres:

@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.env
+.venv/
+venv/
+env/
+
+mkjd.db
+*.sqlite3
+
+models/model_judol_bert/
+model_judol_bert/
