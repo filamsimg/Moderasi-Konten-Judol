@@ -1,0 +1,15 @@
+services:
+  fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mkjd-fe
+    ports:
+      - "3000:3000"
+    environment:
+      HOST: 0.0.0.0
+      NUXT_PORT: 3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nuxt

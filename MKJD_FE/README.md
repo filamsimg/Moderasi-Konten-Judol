@@ -2,6 +2,27 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Quick start (Docker + Makefile)
+Build & run container:
+```bash
+make docker-up
+```
+
+Foreground mode:
+```bash
+make docker-dev
+```
+
+Stop container:
+```bash
+make docker-down
+```
+
+Rebuild container:
+```bash
+make docker-fresh
+```
+
 ## Setup
 
 Make sure to install dependencies:

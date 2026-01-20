@@ -20,6 +20,11 @@ Postgres (rebuild + seed):
 make be-db-fresh
 ```
 
+Semua (BE db fresh + FE rebuild):
+```bash
+make docker-fresh
+```
+
 Frontend:
 ```bash
 make fe-install

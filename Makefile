@@ -1,4 +1,4 @@
-.PHONY: be-dev be-dev-ml be-api-run be-db-fresh be-db-up be-db-down be-db-logs be-db-ps fe-install fe-dev fe-build fe-generate
+.PHONY: be-dev be-dev-ml be-api-run be-db-fresh be-db-up be-db-down be-db-logs be-db-ps fe-install fe-dev fe-build fe-generate fe-docker-build fe-docker-up fe-docker-down fe-docker-logs fe-docker-ps fe-docker-dev docker-fresh
 
 BE_DIR := MKJD_BE
 FE_DIR := MKJD_FE
@@ -39,3 +39,25 @@ fe-build:
 
 fe-generate:
 	$(NPM) --prefix $(FE_DIR) run generate
+
+fe-docker-build:
+	$(MAKE) -C $(FE_DIR) docker-build
+
+fe-docker-up:
+	$(MAKE) -C $(FE_DIR) docker-up
+
+fe-docker-down:
+	$(MAKE) -C $(FE_DIR) docker-down
+
+fe-docker-logs:
+	$(MAKE) -C $(FE_DIR) docker-logs
+
+fe-docker-ps:
+	$(MAKE) -C $(FE_DIR) docker-ps
+
+fe-docker-dev:
+	$(MAKE) -C $(FE_DIR) docker-dev
+
+docker-fresh:
+	$(MAKE) -C $(BE_DIR) docker-fresh
+	$(MAKE) -C $(FE_DIR) docker-fresh
