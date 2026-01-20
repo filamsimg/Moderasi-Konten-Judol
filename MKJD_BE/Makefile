@@ -1,4 +1,4 @@
-.PHONY: docker-up docker-down docker-start docker-stop docker-restart docker-logs docker-ps docker-fresh db-wait db-migrate db-seed db-seed-sample venv install install-ml api-run dev dev-ml
+.PHONY: docker-up docker-down docker-start docker-stop docker-restart docker-logs docker-ps docker-fresh db-wait db-migrate db-seed db-seed-sample venv install install-ml api-run dev dev-ml dev-reset
 
 COMPOSE ?= docker compose
 PY ?= python
@@ -39,6 +39,14 @@ api-run: install
 dev: install api-run
 
 dev-ml: install-ml api-run
+
+dev-reset:
+ifeq ($(OS),Windows_NT)
+	powershell -NoProfile -Command "Remove-Item -Recurse -Force '$(VENV)' -ErrorAction SilentlyContinue"
+else
+	rm -rf "$(VENV)"
+endif
+	$(MAKE) dev
 
 docker-up:
 	$(COMPOSE) up -d

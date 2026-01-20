@@ -54,9 +54,15 @@
           Anda akan diminta memberikan izin moderasi komentar. Data Anda aman dan tidak dibagikan.
         </div>
 
+        <div v-if="errorMessage" class="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+          {{ errorMessage }}
+        </div>
+
         <button
           type="button"
           class="w-full rounded-lg border px-3 py-2 text-sm bg-sky-600 text-white border-sky-600 hover:bg-sky-700"
+          :class="isBusy ? 'opacity-60 cursor-wait' : ''"
+          :disabled="isBusy"
           @click="handleLogin"
         >
           {{ oauthStatus.connected ? "Lanjutkan" : "Masuk dengan Google" }}
@@ -82,7 +88,11 @@
           <p class="text-sm text-gray-500">Pilih kanal yang ingin Anda kelola komentarnya.</p>
         </div>
 
-        <div class="space-y-3">
+        <div v-if="channelOptions.length === 0" class="rounded-lg border bg-gray-50 p-3 text-xs text-gray-600">
+          Belum ada kanal ditemukan. Pastikan OAuth sudah berhasil, lalu ulangi.
+        </div>
+
+        <div class="space-y-3" v-else>
           <button
             v-for="option in channelOptions"
             :key="option.id"
@@ -218,14 +228,17 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { storeToRefs } from "pinia"
+import { useRoute } from "vue-router"
 import { useModerationStore } from "~/stores/moderation"
+import { apiFetch } from "~/lib/api"
 
 definePageMeta({ layout: "setup" })
 
 const store = useModerationStore()
 const { setupState, oauthStatus, channelOptions } = storeToRefs(store)
+const route = useRoute()
 
 const steps = [1, 2, 3]
 const currentStep = computed(() => setupState.value.step)
@@ -233,12 +246,30 @@ const currentStep = computed(() => setupState.value.step)
 const selectedChannelId = computed(() => oauthStatus.value.channelId)
 const hasChannel = computed(() => Boolean(oauthStatus.value.channelId))
 
-const handleLogin = () => {
-  if (!oauthStatus.value.connected) {
-    store.updateOAuthStatus({ connected: true }, "admin", "OAuth connected via setup")
-    store.refreshSync("system")
+const isBusy = ref(false)
+const errorMessage = ref("")
+
+const handleLogin = async () => {
+  errorMessage.value = ""
+  if (oauthStatus.value.connected) {
+    await store.fetchChannelOptions()
+    store.nextSetupStep()
+    return
   }
-  store.nextSetupStep()
+  isBusy.value = true
+  try {
+    const data = await apiFetch("/v1/oauth/youtube/connect")
+    if (data?.url) {
+      window.location.href = data.url
+    } else {
+      errorMessage.value = "Gagal membuat URL OAuth. Cek env backend."
+    }
+  } catch (error) {
+    console.error("Failed to start OAuth", error)
+    errorMessage.value = "Gagal memulai OAuth. Cek konfigurasi backend."
+  } finally {
+    isBusy.value = false
+  }
 }
 
 const selectChannel = (optionId) => {
@@ -259,4 +290,14 @@ const grantAccess = () => {
   store.completeSetup("admin")
   navigateTo("/")
 }
+
+onMounted(async () => {
+  if (route.query.oauth === "success") {
+    await store.fetchOAuthStatus()
+    await store.fetchChannelOptions()
+    store.setSetupStep(2)
+  } else if (route.query.oauth === "error") {
+    errorMessage.value = "OAuth gagal. Silakan ulangi."
+  }
+})
 </script>

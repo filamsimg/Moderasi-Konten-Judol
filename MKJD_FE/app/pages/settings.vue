@@ -363,7 +363,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, reactive, ref } from "vue"
+import { computed, onBeforeUnmount, reactive, ref, watch } from "vue"
 import { storeToRefs } from "pinia"
 import { useModerationStore } from "~/stores/moderation"
 
@@ -400,7 +400,7 @@ const connectionBadgeClass = computed(() =>
   oauthStatus.value.connected ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
 )
 
-const scopeList = computed(() => oauthStatus.value.scopes.join(", "))
+const scopeList = computed(() => (oauthStatus.value.scopes || []).join(", "))
 
 const videoOptions = computed(() => {
   const unique = new Set(comments.value.map((comment) => comment.videoTitle))
@@ -420,6 +420,22 @@ const showToast = (message) => {
     toastMessage.value = ""
   }, 2000)
 }
+
+watch(
+  settings,
+  (value) => {
+    thresholdLow.value = value.thresholdLow
+    thresholdHigh.value = value.thresholdHigh
+    borderlineEnabled.value = value.borderlineEnabled
+    monitoredVideos.value = Array.isArray(value.monitoredVideos) ? [...value.monitoredVideos] : []
+    language.value = value.language
+    theme.value = value.theme
+    density.value = value.density
+    notifyNewComments.value = value.notifyNewComments
+    autoHoldSuspicious.value = value.autoHoldSuspicious
+  },
+  { immediate: true }
+)
 
 const saveSettings = () => {
   if (!isValid.value) return

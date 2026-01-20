@@ -23,6 +23,18 @@ Rebuild container:
 make docker-fresh
 ```
 
+## API Base URL
+Salin env:
+```bash
+copy .env.example .env
+```
+
+Atur `NUXT_PUBLIC_API_BASE` sesuai backend (default `http://localhost:8000`).
+Jika FE berjalan di Docker dan BE di host:
+```
+NUXT_PUBLIC_API_BASE=http://host.docker.internal:8000
+```
+
 ## Setup
 
 Make sure to install dependencies:

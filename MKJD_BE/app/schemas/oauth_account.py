@@ -28,3 +28,16 @@ class OAuthStatusUpdate(APIModel):
     last_sync: Optional[datetime] = None
     token_expiry: Optional[datetime] = None
     scopes: Optional[list[str]] = None
+
+
+class YouTubeChannelResponse(APIModel):
+    id: str
+    name: Optional[str] = None
+    handle: Optional[str] = None
+    url: Optional[str] = None
+    subscriber_count: Optional[int] = None
+    thumbnail_url: Optional[str] = None
+
+
+class YouTubeChannelListResponse(APIModel):
+    items: list[YouTubeChannelResponse]

@@ -8,7 +8,12 @@ from app.schemas.monitoring_target import (
     MonitoringTargetResponse,
     MonitoringTargetUpdate,
 )
-from app.schemas.oauth_account import OAuthStatusResponse, OAuthStatusUpdate
+from app.schemas.oauth_account import (
+    OAuthStatusResponse,
+    OAuthStatusUpdate,
+    YouTubeChannelListResponse,
+    YouTubeChannelResponse,
+)
 from app.schemas.pipeline_status import PipelineStatusResponse, PipelineStatusUpdate
 from app.schemas.settings import SettingsResponse, SettingsUpdate
 
@@ -34,6 +39,8 @@ __all__ = [
     "MonitoringTargetUpdate",
     "OAuthStatusResponse",
     "OAuthStatusUpdate",
+    "YouTubeChannelListResponse",
+    "YouTubeChannelResponse",
     "PipelineStatusResponse",
     "PipelineStatusUpdate",
     "SettingsResponse",

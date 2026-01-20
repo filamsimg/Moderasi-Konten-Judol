@@ -7,7 +7,7 @@ Backend FastAPI untuk sistem moderasi komentar judi online.
 - PostgreSQL (disarankan; SQLite bisa untuk dev)
 
 ## Quick start (Makefile)
-Setup + run API (sekali jalan):
+Setup dependensi + run API (sekali jalan):
 ```bash
 make dev
 ```
@@ -58,10 +58,12 @@ python -m uvicorn app.main:app --reload
 ```
 
 ## PostgreSQL via Docker
-Jalankan database lokal:
+Jalankan API + database lokal:
 ```bash
 docker compose up -d
 ```
+
+API akan tersedia di `http://localhost:8000`.
 
 Pastikan `DATABASE_URL` mengarah ke Postgres, lalu migrasi:
 ```bash
@@ -69,7 +71,7 @@ alembic upgrade head
 ```
 
 ## Makefile (Docker + DB)
-Jalankan Postgres:
+Jalankan API + Postgres:
 ```bash
 make docker-up
 ```
@@ -100,6 +102,20 @@ postman/MKJD_BE.postman_collection.json
 ## Catatan model
 - Model BERT default diarahkan ke `./models/model_judol_bert`.
 - Aktifkan dengan `MODEL_ENABLED=true` di `.env`.
+
+## OAuth YouTube (setup FE)
+Isi env berikut:
+```
+YOUTUBE_CLIENT_ID=...
+YOUTUBE_CLIENT_SECRET=...
+YOUTUBE_REDIRECT_URI=http://localhost:8000/v1/oauth/youtube/callback
+FRONTEND_URL=http://localhost:3000/setup
+```
+
+Flow singkat:
+- FE panggil `GET /v1/oauth/youtube/connect` lalu redirect ke Google.
+- Google redirect ke `YOUTUBE_REDIRECT_URI`, BE simpan token lalu redirect ke `FRONTEND_URL?oauth=success`.
+- FE lanjut ambil kanal dari `GET /v1/oauth/youtube/channels`.
 
 ## Model dari Google Drive
 Unduh model dari folder Drive ini:

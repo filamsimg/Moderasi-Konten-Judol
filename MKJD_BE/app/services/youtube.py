@@ -43,3 +43,11 @@ class YouTubeClient:
             banAuthor=ban_author,
         )
         return request.execute()
+
+    def list_channels(self, max_results: int = 50):
+        request = self._client.channels().list(
+            part="snippet,statistics",
+            mine=True,
+            maxResults=max_results,
+        )
+        return request.execute()

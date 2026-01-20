@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,7 @@ from app.services.inference import ModelService
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_logging()
+    logger = logging.getLogger(__name__)
     app.state.model_service = None
     if settings.model_enabled:
         service = ModelService(
@@ -21,7 +23,18 @@ async def lifespan(app: FastAPI):
             max_length=settings.model_max_length,
             batch_size=settings.model_batch_size,
         )
-        service.load()
+        try:
+            service.load()
+        except ModuleNotFoundError as exc:
+            logger.warning(
+                "Model enabled but dependency missing (%s). "
+                "Set MODEL_ENABLED=false or install requirements-ml.txt.",
+                exc,
+            )
+            service = None
+        except Exception as exc:
+            logger.exception("Failed to load model, continuing without model: %s", exc)
+            service = None
         app.state.model_service = service
     yield
 

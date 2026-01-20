@@ -138,6 +138,33 @@
       "response": []
     },
     {
+      "name": "OAuth - Connect URL",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/oauth/youtube/connect"
+      },
+      "response": []
+    },
+    {
+      "name": "OAuth - Channels",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/oauth/youtube/channels"
+      },
+      "response": []
+    },
+    {
+      "name": "OAuth - Callback (manual)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/v1/oauth/youtube/callback?code=YOUR_CODE"
+      },
+      "response": []
+    },
+    {
       "name": "Models - List",
       "request": {
         "method": "GET",

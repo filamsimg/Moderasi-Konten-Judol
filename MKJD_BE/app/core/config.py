@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     youtube_client_id: Optional[str] = None
     youtube_client_secret: Optional[str] = None
     youtube_redirect_uri: Optional[str] = None
+    frontend_url: str = "http://localhost:3000/setup"
 
     @field_validator("allow_origins", mode="before")
     @classmethod

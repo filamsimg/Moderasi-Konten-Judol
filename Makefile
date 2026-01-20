@@ -1,4 +1,4 @@
-.PHONY: be-dev be-dev-ml be-api-run be-db-fresh be-db-up be-db-down be-db-logs be-db-ps fe-install fe-dev fe-build fe-generate fe-docker-build fe-docker-up fe-docker-down fe-docker-logs fe-docker-ps fe-docker-dev docker-fresh
+.PHONY: be-dev be-dev-ml be-dev-reset be-api-run be-db-fresh be-db-up be-db-down be-db-logs be-db-ps fe-install fe-dev fe-build fe-generate fe-docker-build fe-docker-up fe-docker-down fe-docker-logs fe-docker-ps fe-docker-dev docker-fresh
 
 BE_DIR := MKJD_BE
 FE_DIR := MKJD_FE
@@ -9,6 +9,9 @@ be-dev:
 
 be-dev-ml:
 	$(MAKE) -C $(BE_DIR) dev-ml
+
+be-dev-reset:
+	$(MAKE) -C $(BE_DIR) dev-reset
 
 be-api-run:
 	$(MAKE) -C $(BE_DIR) api-run
